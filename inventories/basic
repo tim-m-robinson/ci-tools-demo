@@ -1,0 +1,16 @@
+[local]
+localhost
+
+[jenkins]
+jenkins
+
+[sonar]
+sonar
+
+[nexus]
+nexus
+
+[ci-tools:children]
+jenkins
+sonar
+nexus

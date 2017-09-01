@@ -1,0 +1,32 @@
+---
+
+- name: Copy FUSE EAP Docker context
+  synchronize:
+    src: "{{ playbook_dir }}/lib/files/fuse_eap"
+    dest: .
+    recursive: true
+
+- name: Install Python HTTP module
+  pip:
+    name: http
+
+- name: Start WebServer for Red Hat binaries
+  shell: "(cd fuse_eap; python -mSimpleHTTPServer 8080 >/dev/null 2>&1 & echo $! > PID)"
+  async: 10
+  poll: 0
+
+- name: Build FUSE EAP Image
+  docker_image:
+    path: ./fuse_eap/docker
+    name: fuse_eap
+    tag: 6.3.0
+    pull: False
+    state: present
+
+- name: Stop WebServer for Red Hat binaries
+  shell: "cd fuse_eap; kill -9 `cat PID`; rm PID"
+
+- name: Cleanup Jenkins Docker context
+  file:
+    path: ./fuse_eap
+    state: absent

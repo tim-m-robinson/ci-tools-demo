@@ -1,0 +1,26 @@
+---
+- name: Install EPEL Repository
+  shell: |
+    curl -O https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    sudo rpm -Uvh epel-release-latest-7*.rpm
+    rm epel-release-latest-7*.rpm
+
+- name: Install Docker CE on RHEL
+  shell: |
+    sudo yum install -y yum-utils
+    sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    sudo yum makecache fast
+    sudo yum install -y --setopt=obsoletes=0 \
+      docker-ce-17.03.2.ce-1.el7.centos.x86_64 \
+      docker-ce-selinux-17.03.2.ce-1.el7.centos.noarch
+    sudo service docker start
+    sudo systemctl enable docker
+    sudo yum install -y python-pip
+    sudo pip install docker
+
+- name: Add EC2 User to Docker group
+  shell: sudo usermod -G docker ec2-user
+
+- name: Docker Check
+  command: docker ps
+

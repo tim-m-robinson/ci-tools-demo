@@ -1,0 +1,36 @@
+---
+
+- name: Copy Jenkins Docker context
+  synchronize:
+    src: "{{ playbook_dir }}/lib/files/jenkins/docker"
+    dest: ./jenkins_docker
+    recursive: true
+
+- name: Build Jenkins Image
+  docker_image:
+    path: ./jenkins_docker/docker
+    name: atos/jenkins
+    tag: 1.0
+    pull: False
+    state: present
+
+- name: Cleanup Jenkins Docker context
+  file:
+    path: ./jenkins_docker
+    state: absent
+
+- name: Create Jenkins Home Directory
+  file:
+    path: ./jenkins_home
+    state: directory
+    owner: 1000
+    group: 1000
+
+- name: Copy Jenkins Startup script
+  copy:
+    src: "{{ playbook_dir }}/lib/files/jenkins/start_jenkins.sh"
+    dest: .
+    mode: 0555
+
+- name: Start Jenkins Docker Container
+  shell: ./start_jenkins.sh

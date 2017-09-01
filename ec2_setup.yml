@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  roles:
+    - ec2_default_vpc_id
+    - ec2_ci_tools_teardown
+    - ec2_ci_tools_create

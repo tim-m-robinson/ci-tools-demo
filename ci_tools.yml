@@ -1,0 +1,10 @@
+---
+- hosts: ci-tools
+  gather_facts: no
+  roles:
+    - install_docker
+    - jenkins_docker_setup
+    - sonarqube_docker_setup
+    - nexus_docker_setup
+    - citools_docker_network_setup
+    - fuse_eap_docker_setup

@@ -1,0 +1,16 @@
+---
+- name: Gather AWS VPC remote facts.
+  ec2_vpc_net_facts:
+    region: "{{ region | default('eu-west-2') }}"
+    filters: is_default=true
+  register: aws_vpc_remote_facts
+- name: Debug.
+  debug:
+    msg: "{{ aws_vpc_remote_facts }}"
+- name: Default VPC ID
+  set_fact:
+    default_vpc: "{{ aws_vpc_remote_facts.vpcs[0].id }}"
+- name: Debug.
+  debug:
+    msg: "{{ default_vpc }}"
+

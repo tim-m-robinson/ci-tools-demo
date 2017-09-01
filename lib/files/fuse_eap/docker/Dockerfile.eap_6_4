@@ -1,0 +1,23 @@
+FROM openjdk:8-jdk-alpine
+
+ENV EAP_ZIP=eap-6.4.0-fuse-6.3.0-187.zip
+
+USER root
+RUN \
+  addgroup -g 1001 jboss &&\
+  adduser -u 1001 -D -h /home/jboss -G jboss -g "JBoss User" -s /bin/sh jboss &&\ 
+  mkdir /opt /opt/eap &&\
+  chown jboss:jboss /opt/eap
+
+#COPY $EAP_ZIP /tmp
+RUN apk --no-cache add curl 
+RUN DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'` &&\
+    cd /tmp && curl -O "http://$DOCKER_HOST:8080/$EAP_ZIP" &&\
+    unzip /tmp/$EAP_ZIP -d /opt &&\
+    rm -f /tmp/$EAP_ZIP
+
+RUN chown -R jboss:jboss /opt/eap
+
+USER jboss
+
+CMD /opt/eap/bin/standalone.sh -c standalone.xml -bmanagement 0.0.0.0 -b 0.0.0.0

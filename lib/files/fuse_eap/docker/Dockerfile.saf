@@ -1,0 +1,19 @@
+FROM openjdk:8-jdk-alpine
+
+ENV EAP_ZIP=eap-6.4.0-fuse-6.3.0-187.zip
+
+USER root
+RUN \
+  addgroup -g 1001 jboss &&\
+  adduser -u 1001 -D -h /home/jboss -G jboss -g "JBoss User" -s /bin/sh jboss &&\ 
+  mkdir /opt /opt/eap &&\
+  chown jboss:jboss /opt/eap
+
+COPY $EAP_ZIP /tmp
+RUN chown jboss:jboss /tmp/$EAP_ZIP
+
+USER jboss
+RUN  unzip /tmp/$EAP_ZIP -d /opt &&\
+     rm -f /tmp/$EAP_ZIP
+
+CMD /opt/eap/bin/standalone.sh -c standalone.xml -bmanagement 0.0.0.0 -b 0.0.0.0

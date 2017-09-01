@@ -1,0 +1,9 @@
+---
+- name: Start SonarQube Docker Container
+  docker_container:
+    name: sonar
+    image: sonarqube:6.5
+    exposed_ports:
+      - 9000:9000
+    restart_policy: always
+    state: started

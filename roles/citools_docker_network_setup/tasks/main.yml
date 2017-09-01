@@ -1,0 +1,10 @@
+---
+
+- name: Create Docker Network for CI-Tools
+  docker_network:
+    name: citools
+    connected:
+      - jenkins
+      - sonar
+      - nexus
+    state: present

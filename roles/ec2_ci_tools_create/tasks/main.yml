@@ -1,0 +1,50 @@
+---
+- name: Create CI Tools Security Group
+  ec2_group:
+    name: ci-tools
+    description: Security Group for CI Tool deployments.
+    region: "{{ region | default('eu-west-2') }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 9090
+        to_port: 9090
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 9000
+        to_port: 9000
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8081
+        to_port: 8081
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8080
+        to_port: 8080
+        cidr_ip: 0.0.0.0/0
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+  register: ec2_group
+
+- name: Debug.
+  debug:
+    msg: "{{ ec2_group }}"
+
+- name: Launch New CI Server
+  ec2:
+    key_name: ec2user
+    group: "ci-tools"
+    instance_tags: 
+      Name: "ci-server"
+    instance_type: "{{ ci_instance_type | default('t2.medium') }}"
+    image: ami-a1f5e4c5     # RHEL 7.4 image
+    count: 1
+    wait: true
+    region: "{{ region | default('eu-west-2') }}"
+ #   zone: "{{ zone }}"
+ #   vpc_subnet_id: "{{ default_vpc_subnet_id }}"
+  register: ec2_ci_server

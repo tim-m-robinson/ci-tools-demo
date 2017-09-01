@@ -1,0 +1,6 @@
+# default variables
+abc: foo
+dkr_images:
+  - foo
+dkr_containers:
+  - bar

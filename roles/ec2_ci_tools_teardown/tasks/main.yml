@@ -1,0 +1,30 @@
+---
+- name: Gather EC2 Server Facts
+  ec2_remote_facts:
+    region: "{{ region | default('eu-west-2') }}"
+    filters:
+      "tag:Name": ci-server
+  register: ec2_facts
+
+- name: Debug.
+  debug:
+    msg: "{{ ec2_facts }}"
+
+- name: Delete CI-Server
+  ec2:
+    key_name: ec2user
+    instance_ids: "{{ item.id }}"
+    region: "{{ region | default('eu-west-2') }}"
+    state: absent
+    wait: true
+  with_items: "{{ ec2_facts.instances }}"
+
+#- name: Wait for EC2 Delete
+#  wait_for:
+#    timeout: 60
+
+- name: Delete CI Tools Security Group
+  ec2_group:
+    name: ci-tools
+    region: "{{ region | default('eu-west-2') }}"
+    state: absent
