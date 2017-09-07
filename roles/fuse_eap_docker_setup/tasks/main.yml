@@ -9,6 +9,7 @@
 - name: Install Python HTTP module
   pip:
     name: http
+  become: yes
 
 - name: Start WebServer for Red Hat binaries
   shell: "(cd fuse_eap; python -mSimpleHTTPServer 8080 >/dev/null 2>&1 & echo $! > PID)"

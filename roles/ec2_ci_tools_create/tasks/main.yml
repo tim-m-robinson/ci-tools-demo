@@ -3,7 +3,7 @@
   ec2_group:
     name: ci-tools
     description: Security Group for CI Tool deployments.
-    region: "{{ region | default('eu-west-2') }}"
+    region: "{{ ec2_region | default('eu-west-2') }}"
     rules:
       - proto: tcp
         from_port: 22
@@ -36,15 +36,15 @@
 
 - name: Launch New CI Server
   ec2:
-    key_name: ec2user
+    key_name: "{{ ec2_key_name }}"
     group: "ci-tools"
     instance_tags: 
       Name: "ci-server"
     instance_type: "{{ ci_instance_type | default('t2.medium') }}"
-    image: ami-a1f5e4c5     # RHEL 7.4 image
+    image: '{{ ami_image }}'     # RHEL 7.4 image
     count: 1
     wait: true
-    region: "{{ region | default('eu-west-2') }}"
+    region: "{{ ec2_region | default('eu-west-2') }}"
  #   zone: "{{ zone }}"
  #   vpc_subnet_id: "{{ default_vpc_subnet_id }}"
   register: ec2_ci_server

@@ -3,7 +3,7 @@
   docker_container:
     name: nexus
     image: sonatype/nexus3:3.5.0
-    exposed_ports:
+    published_ports:
       - 8081:8081
     restart_policy: always
     state: started

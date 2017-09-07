@@ -6,5 +6,6 @@ docker run --name jenkins \
     -v ~/jenkins_home:/var/jenkins_home \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --group-add $DOCKER_GID \
+    --restart always \
     -p 9090:8080 \
 -d atos/jenkins:1.0

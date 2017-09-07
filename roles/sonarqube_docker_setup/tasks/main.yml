@@ -3,7 +3,7 @@
   docker_container:
     name: sonar
     image: sonarqube:6.5
-    exposed_ports:
+    published_ports:
       - 9000:9000
     restart_policy: always
     state: started

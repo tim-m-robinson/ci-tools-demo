@@ -21,6 +21,19 @@
 - name: Add EC2 User to Docker group
   shell: sudo usermod -G docker ec2-user
 
+- name: Restart SSHD
+  service:
+    name: sshd
+    state: restarted
+  become: yes
+
+- meta: clear_host_errors
+
+- name: Waiting for server to come back
+  wait_for_connection:
+    delay: 10
+    timeout: 300
+
 - name: Docker Check
   command: docker ps
 
