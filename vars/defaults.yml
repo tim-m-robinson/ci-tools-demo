@@ -1,7 +1,7 @@
 # default variables
 ec2_region: 'us-west-2'
 ec2_key_name: 'ec2user_uswest2_tmr'
-ami_image: 'ami-775e4f16'
+ami_image: 'ami-9fa343e7'
 ci_instance_type: 't2.large'
 abc: foo
 dkr_images:

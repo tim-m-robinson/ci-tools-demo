@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.75
+FROM jenkins/jenkins:2.89
 
 USER root
 RUN  curl -fsSL get.docker.com -o get-docker.sh && \
@@ -6,7 +6,7 @@ RUN  curl -fsSL get.docker.com -o get-docker.sh && \
      usermod -aG docker jenkins
 
 USER jenkins
-RUN /usr/local/bin/install-plugins.sh git workflow-aggregator docker-workflow
+RUN /usr/local/bin/install-plugins.sh git workflow-aggregator docker-workflow pipeline-utility-steps
 
 ENV JENKINS_USER admin
 ENV JENKINS_PASS admin

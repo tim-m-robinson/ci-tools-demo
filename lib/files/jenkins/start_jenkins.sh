@@ -6,6 +6,8 @@ docker run --name jenkins \
     -v ~/jenkins_home:/var/jenkins_home \
     -v /var/run/docker.sock:/var/run/docker.sock \
     --group-add $DOCKER_GID \
+    --network citools \
     --restart always \
     -p 9090:8080 \
--d atos/jenkins:1.0
+    -e NEXUS_URL="http://`hostname -i`:80" \
+    -d atos/jenkins:1.1

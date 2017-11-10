@@ -6,5 +6,5 @@
     connected:
       - jenkins
       - sonar
-      - nexus
+      - nexus3
     state: present

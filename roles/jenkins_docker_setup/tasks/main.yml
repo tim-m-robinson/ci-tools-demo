@@ -10,7 +10,7 @@
   docker_image:
     path: ./jenkins_docker/docker
     name: atos/jenkins
-    tag: 1.0
+    tag: 1.1
     pull: False
     state: present
 

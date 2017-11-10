@@ -23,6 +23,7 @@
     tag: 6.3.0
     pull: False
     state: present
+    force: yes
 
 - name: Stop WebServer for Red Hat binaries
   shell: "cd fuse_eap; kill -9 `cat PID`; rm PID"

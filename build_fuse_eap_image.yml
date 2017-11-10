@@ -1,0 +1,5 @@
+---
+- hosts: ci-tools
+  gather_facts: no
+  roles:
+    - fuse_eap_docker_setup

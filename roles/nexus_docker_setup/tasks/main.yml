@@ -1,8 +1,15 @@
 ---
+- name: Create Nexus Data directory
+  file:
+    path: ./nexus-data
+    state: directory
+
 - name: Start Nexus Docker Container
   docker_container:
-    name: nexus
+    name: nexus3
     image: sonatype/nexus3:3.5.0
+    volumes:
+      - nexus-data:/nexus-data
     published_ports:
       - 8081:8081
     restart_policy: always

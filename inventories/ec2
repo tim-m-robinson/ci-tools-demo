@@ -2,4 +2,4 @@
 localhost
 
 [ci-tools]
-52.37.226.128 ansible_ssh_user=ec2-user
+54.70.187.56 ansible_ssh_user=ec2-user

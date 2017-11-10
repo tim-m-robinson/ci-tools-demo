@@ -32,6 +32,9 @@ RUN DOCKER_HOST=`/sbin/ip route|awk '/default/ { print $3 }'` &&\
     cd /tmp && curl -O "http://$DOCKER_HOST:8080/$FUSE_JAR" &&\
     cd /opt/eap &&\
     java -jar /tmp/$FUSE_JAR &&\
+    rm /opt/eap/standalone/deployments/*.dodeploy &&\
+    touch /opt/eap/standalone/deployments/switchyard-bpel-console.war.skipdeploy &&\
+    touch /opt/eap/standalone/deployments/switchyard-bpel-console-server.war.skipdeploy &&\
     rm -f /tmp/$FUSE_JAR /tmp/*.zip &&\
     chown -R jboss:jboss /opt/eap
 
